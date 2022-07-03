@@ -51,28 +51,62 @@ function getMonthName(monNum){
 }
 
 function getMonthName2(monNum){
-    // loop if
+    let monthName=null
+    // if(monNum<1 || monNum>12) monthName = "invalid"
+    // else monthName = months[monNum-1]
+    // return monthName
+    for(let i =0; i<months.length; i++){
+        if(i+1 == monNum) return months[i]
+    }
+    return "invalid nonth number"
 }
 
-const userMonth = getUserInput("please enter a month number??")
-console.log(`Your Month Name is ${getMonthName(userMonth)}`)
+// const userMonth = getUserInput("please enter a month number??")
+// console.log(`Your Month Name is ${getMonthName2(userMonth)}`)
 
+// c, f, k 
+// 40 , f => 40f => 5c,3k, 40f
 
+// function ctok(temp){ return temp*30 }
 
+// const temp = getUserInput("please enter temp")
+// const tempType = getUserInput("enter temp type")
 
+// test()
+// test1()
+// function test(){ 
+//     console.log('test')
+// }
+// let test1 = function(){ 
+//     console.log("test1")
+// }
+// let test2 = () => {
+//     console.log(this)
+// }
+// let test3 = () => 5
 
+const cTok = (temp) => temp*10
+const cTof = (temp) => temp*20
+const fToc = (temp) => temp*30
+const fToK = (temp) => temp*40
+const kToc = (temp) => temp*50
+const kTof = (temp) => temp*60
 
+const getUserTempOutPut = (temp, tempType)=>{
+    let result = null
+    if(tempType.toLowerCase()=="c") 
+        result = `temp in f = ${cTof(temp)} - c= ${temp} - k = ${cTok(temp)}`
+    else if(tempType.toLowerCase()=="f") 
+        result = `temp in f = ${temp} - c= ${fToc(temp)} - k = ${fToK(temp)}`
+    else if(tempType.toLowerCase()=="k") 
+        result = `temp in f = ${kTof(temp)} - c= ${kToc(temp)} - k = ${temp}`
+    else result="invalid temp type"
+    return result
+}
 
-
-
-
-
-
-
-
-
-
-
+let temp = getUserInput("enter Temp")
+let tempType = getUserInput("temp type")
+console.log(getUserTempOutPut(temp, tempType))
 
 
 
