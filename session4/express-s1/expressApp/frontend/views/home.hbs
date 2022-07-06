@@ -1,0 +1,15 @@
+{{>header}}
+{{>navbar}}
+<section class="my-5 container">
+    <h2 class="text-primary text-center">{{title}}</h2>
+    <div class="row">
+        {{#each data}}
+        <div class="col-4">
+            <div class="p-3">
+                <img src="{{url}}" class="img-fluid">
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</section>
+{{>footer}}
