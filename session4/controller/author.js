@@ -19,13 +19,13 @@ const searchUser = (id, data)=>{
 const single = (id) =>{
     const allAuthors = deal.readDataFromJson("author.json")
     // const author = allAuthors.find(author=> author.id == id)
-    const author = searchUser(id, data)
+    const author = searchUser(id, allAuthors)
     if(author==-1) return console.log("no users with this id")
-    console.log(`id=> ${author.id} - name=> ${author.name} - field => ${author.field}`)
+    console.log(`id=> ${allAuthors[author].id} - name=> ${allAuthors[author].name} - field => ${allAuthors[author].field}`)
 }
 const edit = (id, newData) =>{
     const allAuthors = deal.readDataFromJson("author.json")
-    const myId = searchUser(id, data)
+    const myId = searchUser(id, allAuthors)
     if(myId==-1) return console.log("no users with this id")
     if(newData.name) allAuthors[myId].name = newData.name
     if(newData.field) allAuthors[myId].field = newData.field

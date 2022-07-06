@@ -1,3 +1,4 @@
+const { number, string } = require("yargs")
 const yargs = require("yargs")
 const author = require("./controller/author")
 yargs.command({
@@ -13,34 +14,47 @@ yargs.command({
 })
 yargs.command({
     command:"showAll",
-    describe:"add new author",
-    builder:{},
+    describe:"show all authors",
+    handler:()=>{
+        author.showAll()
+    }
+})
+yargs.command({
+    command:"single",
+    describe:"show single author",
+    builder:{
+        id: { type:"number", demandOption:true}
+    },
     handler:(argv)=>{
-        
+        author.single(argv.id)
+    }
+})
+yargs.command({
+    command:"delete",
+    describe:"delete author",
+    builder:{
+        id:{type:"number", demandOption:true}
+    },
+    handler:(argv)=>{
+        author.del(argv.id)
     }
 })
 yargs.command({
     command:"edit",
     describe:"add new author",
-    builder:{},
+    builder:{
+        id:{type:number, demandOption:true},
+        // newData:{
+            name:{type:"string"},
+            field:{type:"string"}
+        // }
+    },
     handler:(argv)=>{
-        
-    }
-})
-yargs.command({
-    command:"single",
-    describe:"add new author",
-    builder:{},
-    handler:(argv)=>{
-        
-    }
-})
-yargs.command({
-    command:"delete",
-    describe:"add new author",
-    builder:{},
-    handler:(argv)=>{
-        
+        // console.log(JSON.parse(argv.newData))
+
+        // let x = "{\"name\":\"marwa\"}"
+        // console.log(JSON.parse(x))
+        author.edit(argv.id, {name:argv.name, field:argv.field})
     }
 })
 yargs.argv
