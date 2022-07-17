@@ -3,6 +3,8 @@ const hbs = require("hbs")
 const path = require("path")
 const app = express()
 
+app.use(express.urlencoded({extended:true}))
+
 app.use(express.static(path.join(__dirname, "../resources/public")))
 app.set("view engine", "hbs")
 app.set("views" , path.join(__dirname, "../resources/views"))
@@ -11,5 +13,7 @@ hbs.registerPartials(path.join(__dirname, "../resources/layouts"))
 const userRoutes = require("../routes/user.routes")
 app.use(userRoutes)
 
-app.get("*", (req,res)=> res.render("err404", {pageTitle:"page not found"}))
+// app.get("*", (req,res)=> res.render("err404", {pageTitle:"page not found"}))
+// app.post("*", (req,res)=> res.render("err404", {pageTitle:"page not found"}))
+app.all("*", (req,res)=> res.render("err404", {pageTitle:"page not found"}))
 module.exports = app
