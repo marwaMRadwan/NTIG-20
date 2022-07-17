@@ -1,0 +1,14 @@
+hbs => add form , edit, del, show all, show single
+
+user regiter=>  id, name, age, email, password, addresses=[
+    { addrType, addrDetails, id}
+]
+
+user.json
+
+seprate routes file
+
+.env  (process.env) => PORT number, filename, dbName, other ports
+
+npm init --y
+npm i express hbs dotenv
