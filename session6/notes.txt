@@ -1,0 +1,6 @@
+clients => name, accNum, intialBalance, currentBalance
+
+add clients
+show all clients
+add balance
+withdraw balance
