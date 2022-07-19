@@ -35,7 +35,7 @@ const User = mongoose.model("User", {
         minlength:6,
         maxlength:200,
         required:true,
-        match:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+        // match:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
         validate(value){
             if(value.includes(this.name))
                 throw new Error("invalid password")
