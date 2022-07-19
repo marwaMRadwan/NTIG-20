@@ -1,0 +1,12 @@
+{{>header}}
+{{>navbar}}
+<section class="container my-5">
+    {{#unless result}}
+    <div class="alert alert-danger">No users with this id</div>
+    {{else}}
+    <h5>{{result.id}}</h5>
+    <h5>{{result.name}}</h5>
+    <h5>{{result.email}}</h5>
+    {{/unless}}
+</section>
+{{>footer}}
