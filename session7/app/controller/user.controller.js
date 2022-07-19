@@ -1,3 +1,4 @@
+const ObjectId = require('mongodb').ObjectId
 const connection = require('../../db/connect')
 class User{
     static home = (req, res)=>{
@@ -31,16 +32,34 @@ class User{
         })
     }
     static single = (req, res)=>{
-        const result = {}
-        res.render("single", {
-            pageTitle:"single User",
-            result
+        connection( db => {
+            const userId = new ObjectId(req.params.id)
+            db.collection("user")
+            .findOne({_id: userId})
+            .then(( result)=>{
+                res.render("single", {
+                    pageTitle:"single User",
+                    result
+                })
+            })
+            .catch(e=> {
+                console.log(e.message)
+                res.redirect("/errordb")
+            })
         })
     }
     static del = (req, res)=>{
+        connection( db => {
+            const userId = new ObjectId(req.params.id)
+            db.collection("user")
+            .deleteOne({_id: userId})
+            .then(()=>{res.redirect("/")})
+            .catch(e=> {
+                console.log(e.message)
+                res.redirect("/errordb")
+            })
+        })
+
     }
 }
-
-// const userObj = new User()
-// module.exports = userObj
 module.exports = User
