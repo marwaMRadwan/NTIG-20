@@ -25,10 +25,39 @@ class User{
             .catch(e=> res.redirect("/dberror"))
         })
     }
-
     static edit = (req, res)=>{
-        res.render("Edit", {
-            pageTitle:"edit User"
+        connection( db => {
+            const userId = new ObjectId(req.params.id)
+            db.collection("user")
+            .findOne({_id: userId})
+            .then(( result)=>{
+                res.render("edit", {
+                    pageTitle:"Edit User",
+                    result
+                })
+            })
+            .catch(e=> {
+                console.log(e.message)
+                res.redirect("/errordb")
+            })
+        })
+
+    }
+    static editLogic= (req,res)=>{
+        connection( db => {
+            const userId = new ObjectId(req.params.id)
+            db.collection("user")
+            .updateOne(
+                {_id: userId},
+                //{$inc: {age:1} }
+                {$set: req.body}
+                )
+            .then(( result)=>{
+                res.redirect("/")
+            })
+            .catch(e=> {
+                res.redirect("/errordb")
+            })
         })
     }
     static single = (req, res)=>{

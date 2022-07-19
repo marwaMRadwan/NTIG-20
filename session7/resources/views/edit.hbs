@@ -1,12 +1,15 @@
 {{>header}}
 {{>navbar}}
 <section class="container my-5">
-    <form>
+    <form method="post">
         <div class="mb-3">
-            <input class="form-control" name="name" placeholder="name" value="marwa">
+            <input class="form-control" name="name" placeholder="name" value="{{result._id}}" disabled>
         </div>
         <div class="mb-3">
-            <input class="form-control" name="email" placeholder="email" value="marwa@email.com">
+            <input class="form-control" name="name" placeholder="name" value="{{result.name}}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" name="email" placeholder="email" value="{{result.email}}">
         </div>
         <div class="mb-3">
             <button class="btn btn-primary">edit user</button>
