@@ -1,11 +1,17 @@
 const connection = require('../../db/connect')
 class User{
     static home = (req, res)=>{
-        const allUsers = []
-        res.render("home", {
-            pageTitle:"All Users",
-            allUsers,
-            isEmpty: !allUsers.length
+        connection( db => {
+            db.collection("user")
+            .find()
+            .toArray((err, result)=>{
+                if(err) return res.redirect("/dberror")
+                res.render("home", {
+                    pageTitle:"All Users",
+                    allUsers:result,
+                    isEmpty: !result.length
+                })
+            })
         })
     }
     static addPost = (req, res)=>{
