@@ -2,6 +2,8 @@ const router = require("express").Router()
 const user = require("../app/controller/user.controller")
 
 router.get("/", user.home)
+router.get("/addNew", user.newAdd)
+router.post("/addNew", user.newAddLogic)
 
 router.get("/add", user.addPost)
 router.post("/addLogic", user.addLogicPost)

@@ -1,15 +1,28 @@
 {{>header}}
 {{>navbar}}
 <section class="container my-5">
+    {{!-- {{#each myErr}}
+    <p class="alert alert-danger">{{this.name}} : {{this.val}}</p>
+    {{/each}} --}}
     <form method="post" action="/addLogic">
         <div class="mb-3">
             <input class="form-control" name="name" placeholder="name">
+            {{#if myErr.name}}
+                <p class="alert alert-danger my-1">{{myErr.name}}</p>
+            {{/if}}
         </div>
         <div class="mb-3">
             <input class="form-control" name="email" placeholder="email">
+            {{#if myErr.email}}
+                <p class="alert alert-danger my-1">{{myErr.email}}</p>
+            {{/if}}
         </div>
         <div class="mb-3">
             <input class="form-control" name="password" placeholder="password">
+            {{#if myErr.password}}
+                <p class="alert alert-danger my-1">{{myErr.password}}</p>
+            {{/if}}
+
         </div>
         <div class="mb-3">
             <input class="form-control" name="age" placeholder="age">

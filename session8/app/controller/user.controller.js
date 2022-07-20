@@ -23,7 +23,20 @@ class User{
             res.redirect("/")
         }
         catch(e){ 
-            res.send(e.message)
+            // let myErr = []
+            let myErr = {}
+            for (const property in e.errors) {
+            //     myErr.push({
+            //         name:property, 
+            //         val: e.errors[property]['properties'].message})
+            // }            
+            if(e.errors[property]['properties'])
+                myErr[property] =e.errors[property]['properties'].message
+            else
+                myErr[property] =e.errors[property].message
+            }
+            // res.send(e)
+            res.render("addPost", {myErr})
         }
     }
     static single = async(req, res)=>{
@@ -73,6 +86,45 @@ class User{
         }
         catch(e){
             res.redirect("/dberror")
+        }
+    }
+    static newAdd = async(req,res)=>{
+        const fields = [
+            {"fieldName": "name", "placeholder":"name", "value":"", error:""},
+            {"fieldName": "email", "placeholder":"email", "value":"", error:""},
+            {fieldName: "password", "placeholder":"password", value:"", error:""},
+            {fieldName: "gender", "placeholder":"gender", value:"", error:""},
+            {fieldName: "phone", "placeholder":"phone", value:"", error:""},
+            {fieldName: "age", "placeholder":"age", value:"", error:""},
+        ]
+        res.render("newAdd", {pageTitle:"new add", fields})
+    }
+    static newAddLogic = async(req,res)=>{
+        const fields = [
+            {"fieldName": "name", "placeholder":"name", "value":"", error:""},
+            {"fieldName": "email", "placeholder":"email", "value":"", error:""},
+            {"fieldName": "password", "placeholder":"password", value:"", error:""},
+            {fieldName: "gender", "placeholder":"gender", value:"", error:""},
+            {fieldName: "phone", "placeholder":"phone", value:"", error:""},
+            {fieldName: "age", "placeholder":"age", value:"", error:""},
+        ]
+        try{
+            const userData = new userModel(req.body)
+            await userData.save()
+            res.redirect("/")
+        }
+        catch(e){ 
+            fields.forEach(field=>{
+                field.value = req.body[field.fieldName]
+                if(e.errors[field.fieldName]){
+                    if(e.errors[field.fieldName]["properties"])
+                        field.error=e.errors[field.fieldName]["properties"].message
+                    else
+                        field.error=e.errors[field.fieldName].message
+                }
+            })
+            res.render("newAdd", {pageTitle:"new add", fields})
+
         }
     }
 }
