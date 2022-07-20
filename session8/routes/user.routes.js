@@ -19,4 +19,5 @@ router.post("/edit/:id", user.editLogic)
 router.get("/addAddr/:id", user.addAddr)
 router.post("/addAddr/:id", user.addAddrLogic)
 
+router.get("/delAddr/:addrId", user.delAddr)
 module.exports=router

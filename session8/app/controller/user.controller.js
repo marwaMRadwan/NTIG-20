@@ -141,9 +141,24 @@ class User{
             res.redirect(`/single/${req.params.id}`)
         }
         catch(e){
-            res.redirect(e.message)
+            res.send(e.message)
         }
 
+    }
+    static delAddr = async(req,res)=>{
+        try{
+            const userData = await userModel.findOne({"addresses._id": req.params.addrId})
+            // userData.addresses = userData.addresses.filter( (addr, i) => 
+            //     addr._id!=req.params.addrId
+            // )
+            userData.addresses.id(req.params.addrId).remove()
+
+            await userData.save()
+            res.redirect(`/single/${userData._id}`)
+        }
+        catch(e){
+            res.send(e.message)
+        }
     }
 }
 module.exports = User
