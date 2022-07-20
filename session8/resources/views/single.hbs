@@ -4,9 +4,31 @@
     {{#unless result}}
     <div class="alert alert-danger">No users with this id</div>
     {{else}}
-    <h5>{{result._id}}</h5>
-    <h5>{{result.name}}</h5>
-    <h5>{{result.email}}</h5>
+        {{#each fields}}
+            <div class="alert alert-primary p-2">
+                {{this.fieldName}} : {{this.value}}
+            </div>
+        {{/each}}
+        <table class="table table-bordered">
+            <thead>
+                <th>id</th>
+                <th>Name</th>
+                <th>details</th>
+                <th>actions</th>
+            </thead>
+            <tbody>
+                {{#each result.addresses}}
+                <tr>
+                    <td>{{this._id}}</td>
+                    <td>{{this.addrName}}</td>
+                    <td>{{this.addrDetails}}</td>
+                    <td>
+                        <a href="" class="btn btn-danger"> delete</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     {{/unless}}
 </section>
 {{>footer}}

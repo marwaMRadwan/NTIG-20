@@ -64,7 +64,13 @@ const User = mongoose.model("User", {
     createdAt:{
         type:Date,
         default: Date.now()
-    }
+    },
+    addresses: [
+        { 
+            addrName:{ type:String, trim:true, required:true}, 
+            addrDetails:{type:String, trim:true}
+        }
+    ]
 
 })
 module.exports = User

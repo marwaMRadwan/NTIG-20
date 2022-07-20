@@ -1,4 +1,12 @@
 const userModel = require("../../db/models/user.model")
+const fields = [
+    {"fieldName": "name", "placeholder":"name", "value":"", error:""},
+    {"fieldName": "email", "placeholder":"email", "value":"", error:""},
+    {"fieldName": "password", "placeholder":"password", value:"", error:""},
+    {fieldName: "gender", "placeholder":"gender", value:"", error:""},
+    {fieldName: "phone", "placeholder":"phone", value:"", error:""},
+    {fieldName: "age", "placeholder":"age", value:"", error:""},
+]
 class User{
     static home = async(req, res)=>{
         try{        
@@ -42,13 +50,17 @@ class User{
     static single = async(req, res)=>{
         try{
             const result = await userModel.findById(req.params.id)
+            if(result){
+                fields.forEach(field=> field.value = result[field.fieldName])
+            }
             res.render("single", {
                 pageTitle:"Single User",
-                result
+                result,
+                fields
             })
         }
         catch(e){
-            res.redirect("/dberror")
+            res.redirect(e.message)
         }
     }
     static edit = async(req, res)=>{
@@ -100,14 +112,6 @@ class User{
         res.render("newAdd", {pageTitle:"new add", fields})
     }
     static newAddLogic = async(req,res)=>{
-        const fields = [
-            {"fieldName": "name", "placeholder":"name", "value":"", error:""},
-            {"fieldName": "email", "placeholder":"email", "value":"", error:""},
-            {"fieldName": "password", "placeholder":"password", value:"", error:""},
-            {fieldName: "gender", "placeholder":"gender", value:"", error:""},
-            {fieldName: "phone", "placeholder":"phone", value:"", error:""},
-            {fieldName: "age", "placeholder":"age", value:"", error:""},
-        ]
         try{
             const userData = new userModel(req.body)
             await userData.save()
@@ -124,8 +128,22 @@ class User{
                 }
             })
             res.render("newAdd", {pageTitle:"new add", fields})
-
         }
+    }
+    static addAddr = async(req,res)=>{
+        res.render("addAddr", {pageTitle:"add user address"})
+    }
+    static addAddrLogic = async(req,res)=>{
+        try{
+            const result = await userModel.findById(req.params.id)
+            result.addresses.push(req.body)
+            await result.save()
+            res.redirect(`/single/${req.params.id}`)
+        }
+        catch(e){
+            res.redirect(e.message)
+        }
+
     }
 }
 module.exports = User
