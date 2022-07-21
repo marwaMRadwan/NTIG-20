@@ -1,5 +1,7 @@
 const mongoose = require("mongoose")
 const validator = require("validator")
+const bcryptjs = require("bcryptjs")
+
 const userSchema = mongoose.Schema({
     name:{
         type:String,
@@ -35,7 +37,17 @@ const userSchema = mongoose.Schema({
 }, {
     timestamps:true
 })
-
+userSchema.methods.toJSON = function(){
+    const userData= this.toObject()
+    delete userData.__v
+    delete userData.password
+    return userData
+}
+userSchema.pre("save", async function(){
+    const userData = this
+    if(userData.isModified("password"))
+        userData.password = await bcryptjs.hash(userData.password, 10)
+})
 const User = mongoose.model("User", userSchema)
 
 module.exports = User
