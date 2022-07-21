@@ -4,6 +4,7 @@ class User{
         try{
             const userData = new userModel(req.body)
             await userData.save()
+            
             res.status(200).send({
                 apiStatus:true,
                 data:userData,
