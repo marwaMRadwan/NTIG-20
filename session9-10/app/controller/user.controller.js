@@ -69,8 +69,37 @@ class User{
             message:"data fetached"
         })
     }
-    static logOut = async(req,res)=>{}
-    static logOutAll = async(req,res)=>{}
-    
+    static logOut = async(req,res)=>{
+        try{
+            // [{token:1}, {token:2}, {token:3}]
+            req.user.tokens = req.user.tokens.filter(t=> t.token!= req.token)
+            await req.user.save()
+            res.send({apiStatus:true, data: req.user, message:"logged out all"})
+        }
+        catch(e){
+            res.status(500).send({apiStatus:false,data:e.message, message:"error"})
+        }
+
+    }
+    static logOutAll = async(req,res)=>{
+        try{
+            req.user.tokens = []
+            await req.user.save()
+            res.send({apiStatus:true, data: req.user, message:"logged out all"})
+        }
+        catch(e){
+            res.status(500).send({apiStatus:false,data:e.message, message:"error"})
+        }
+    }
+    static editPassword=async(req,res)=>{
+        try{
+            req.user.password = req.body.password
+            await req.user.save()
+            res.send({apiStatus:true, data: req.user, message:"logged out all"})
+        }
+        catch(e){
+            res.status(500).send({apiStatus:false,data:e.message, message:"error"})
+        }
+    }
 }
 module.exports = User
