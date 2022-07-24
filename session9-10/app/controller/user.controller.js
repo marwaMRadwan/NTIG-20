@@ -62,5 +62,15 @@ class User{
             })
         }
     }
+    static me = async(req, res)=>{
+        res.status(200).send({
+            apiStatus:true,
+            data:req.user,
+            message:"data fetached"
+        })
+    }
+    static logOut = async(req,res)=>{}
+    static logOutAll = async(req,res)=>{}
+    
 }
 module.exports = User
