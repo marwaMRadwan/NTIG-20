@@ -1,4 +1,6 @@
 const postModel = require("../../database/models/post.model")
+// const userModel = require("../../database/models/user.model")
+
 class Post{
     static add = async(req,res)=>{
         try{
@@ -64,11 +66,15 @@ class Post{
         }
 
     }
-    
     static showOtherPosts = async(req,res)=>{
-        try{}
+        try{
+            // const user = await userModel.findById(req.body.id)
+            // await user.populate("myPosts")
+            const data = await postModel.find({userId:req.body.id})
+            res.send({data})
+        }
         catch(e){
-            res.status(500).send({apiStatus:false, data:e.messaage, message:"error"})
+            res.status(500).send({apiStatus: false, data: e.message, message:"error in insert"})
         }
     }
     static addComment = async(req,res)=>{

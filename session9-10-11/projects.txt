@@ -5,3 +5,11 @@ m ahmed, menna => Ecommerce
 eslam, a reda => clinic
 m abd el haleem => Ecommerce
 nourhan
+
+Elearning => admin, teacher, assistant, student
+courses=> , 
+quizez =>  , 
+grades =>
+=> register, login , permissions, log.......
+add, edit, show, enroll, ....
+quiz.......
