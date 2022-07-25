@@ -1,8 +1,7 @@
 ibraheem, ahmed samir, nour => Ecommerce
 alyaa, m abd el wahed => Ecommerce
 moustafa, ahmed adel => clinic
-menna
-m ahmed => Ecommerce
-eslam => clinic
-a reda
+m ahmed, menna => Ecommerce
+eslam, a reda => clinic
 m abd el haleem => Ecommerce
+nourhan

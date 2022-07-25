@@ -24,5 +24,60 @@ class Post{
             res.status(500).send({apiStatus: false, data: e.message, message:"error in insert"})
         }
     }
+    static singlePost = async(req,res)=>{
+        try{
+            const postData = await postModel.findById(req.params.id) //req.body.id
+            if(!postData) throw new Error("post not found")
+            res.status(200).send({
+                apiStatus:true,
+                data:{
+                    postData,
+                    isMine: (req.user._id.toString()==postData.userId)
+                },
+                message:"done"
+            })
+        }
+        catch(e){
+            res.status(500).send({apiStatus:false, data:e.messaage, message:"error"})
+        }
+    }
+    static delMyPost = async(req,res)=>{        
+        try{
+            const postData = await postModel.findOneAndDelete({
+                _id:req.params.id,
+                userId: req.user._id
+            })
+            if(!postData) throw new Error("invalid post data")
+            res.send({
+                apiStatus:true,
+                data:postData, messaage:"done"
+            })
+        }
+        catch(e){
+        res.status(500).send({apiStatus:false, data:e.messaage, message:"error"})
+        }
+    }
+    static editMyPost = async(req,res)=>{
+        try{}
+        catch(e){
+            res.status(500).send({apiStatus:false, data:e.messaage, message:"error"})
+        }
+
+    }
+    
+    static showOtherPosts = async(req,res)=>{
+        try{}
+        catch(e){
+            res.status(500).send({apiStatus:false, data:e.messaage, message:"error"})
+        }
+    }
+    static addComment = async(req,res)=>{
+        try{}
+        catch(e){
+            res.status(500).send({apiStatus:false, data:e.messaage, message:"error"})
+        }
+
+    }
+
 }
 module.exports=Post
