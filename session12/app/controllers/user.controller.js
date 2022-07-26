@@ -14,9 +14,9 @@ class User{
     static login = async(req, res)=>{
         try{
             const userData = await userModel.login(req.body.email, req.body.password)
-            if(!userData.status) 
-                return resGenerator(res, 500, {otp: userData.otp}, "activate first")
-            resGenerator(res, 200, userData, "registered")
+            if(!userData.status) return resGenerator(res, 500, {otp: userData.otp}, "activate first")
+            const token = await userData.generateToken()
+            resGenerator(res, 200, {user:userData, token}, "registered")
         }
         catch(e){
             resGenerator(res, 500, e.message, "cann't login")
@@ -36,9 +36,7 @@ class User{
             resGenerator(res, 500, e.message, "cann't activate user")
         }
     } 
-    static forgetPassword = (req, res)=>{
-        //task
-    } 
+    static forgetPassword = (req, res)=>{}//task 
     static logout = (req, res)=>{} 
     static edit = (req, res)=>{} 
     static editPassword = (req, res)=>{} 

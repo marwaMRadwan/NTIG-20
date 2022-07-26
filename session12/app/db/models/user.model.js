@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator")
 const bcrypt= require("bcryptjs")
 const otpGenerator = require('otp-generator')
+const jwt = require("jsonwebtoken")
 const userSchema = mongoose.Schema({
     name:{
         type:String,
@@ -84,6 +85,14 @@ userSchema.statics.login = async(email, password)=>{
     const isMatched = await bcrypt.compare(password, userData.password)
     if(!isMatched) throw new Error("invalid password")
     return userData
+}
+userSchema.methods.generateToken = async function(){
+    const user = this
+    // if(user.tokens>3) 
+    const token = jwt.sign({_id: user._id}, process.env.JWTKEY)
+    user.tokens = user.tokens.concat({token})
+    await user.save()
+    return token
 }
 const User = mongoose.model("User", userSchema)
 module.exports=User
