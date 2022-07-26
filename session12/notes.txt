@@ -1,0 +1,19 @@
+task app =>
+user => name, age, email, status, type, password, profile image, otp
+task => title, content, status, comments, addedby(admin), assigned to (user)
+
+user:
+register, login, logout, edit profile
+change password, forget password
+activate, delete account, deactivate account
+change profile image
+admin control users
+
+task
+add (only admin type), 
+get all, single (assigned to user, or all for admins)
+edit
+delete
+change status
+add comments, del comments, edit comments
+assign to user (change user assigned)
