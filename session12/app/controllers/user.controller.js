@@ -38,13 +38,31 @@ class User{
     } 
     static me = async(req,res)=>{ resGenerator(res, 200, req.user, "data featched")}
     static forgetPassword = (req, res)=>{}//task 
-    static logout = (req, res)=>{} 
-    static edit = (req, res)=>{} 
-    static editPassword = (req, res)=>{} 
-    static deactivate = (req, res)=>{} 
-    static delAccount = (req, res)=>{} 
+    static logout = (req, res)=>{} //task
+    static edit = (req, res)=>{} //task
+    static editPassword = (req, res)=>{} //task 
+    static deactivate = (req, res)=>{} //task
+    static delAccount = (req, res)=>{} //task
     static changeImage = (req, res)=>{} 
-    static allUsers = (req, res)=>{} 
-    static singleDetails = (req, res)=>{} 
+    static allUsers = async(req, res)=>{
+        try{
+            const users = await userModel.find().sort({name:1})
+            resGenerator(res, 200, users, "data fetched")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error in data")
+        }
+    } 
+    static singleDetails = async(req, res)=>{
+        try{
+            const users = await userModel.findById(req.params.id)
+            if(!users) throw new Error("user not found")
+            resGenerator(res, 200, users, "data fetched")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error in data")
+        }
+
+    } 
 }
 module.exports=User
