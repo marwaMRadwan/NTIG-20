@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator")
 const bcrypt= require("bcryptjs")
+const otpGenerator = require('otp-generator')
 const userSchema = mongoose.Schema({
     name:{
         type:String,
@@ -49,7 +50,12 @@ const userSchema = mongoose.Schema({
         type:String,
         trim:true,
         minlength:6,
-        maxlength:6
+        maxlength:6,
+        default: otpGenerator.generate(6, { 
+            upperCaseAlphabets: false, 
+            specialChars: false, 
+            lowerCaseAlphabets:false 
+        })
     },
     tokens:[
         {
@@ -72,5 +78,12 @@ userSchema.pre("save", async function(next){
         this.password = await bcrypt.hash(this.password, 12)
     next()
 })
+userSchema.statics.login = async(email, password)=>{
+    const userData = await User.findOne({email})
+    if(!userData) throw new Error("invalid email")
+    const isMatched = await bcrypt.compare(password, userData.password)
+    if(!isMatched) throw new Error("invalid password")
+    return userData
+}
 const User = mongoose.model("User", userSchema)
 module.exports=User

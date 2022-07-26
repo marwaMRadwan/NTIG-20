@@ -8,6 +8,8 @@
     "express-form-data": "^2.0.18",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.7",
+    "otp": "^1.1.0",
+    "otp-generator": "^4.0.0",
     "validator": "^13.7.0"
   },
   "name": "session12",
