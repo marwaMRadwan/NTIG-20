@@ -36,6 +36,7 @@ class User{
             resGenerator(res, 500, e.message, "cann't activate user")
         }
     } 
+    static me = async(req,res)=>{ resGenerator(res, 200, req.user, "data featched")}
     static forgetPassword = (req, res)=>{}//task 
     static logout = (req, res)=>{} 
     static edit = (req, res)=>{} 
