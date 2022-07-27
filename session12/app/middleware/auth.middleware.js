@@ -23,7 +23,7 @@ const auth = async(req, res, next)=>{
 const authAdmin = async(req, res, next)=>{
     try{
         const token = req.header("Authorization").replace("Bearer ", "")
-        const user = checkUser(token)
+        const user = await checkUser(token)
         if(user.type != "admin") throw new Error("you are not admin")
         req.user = user
         req.token = token

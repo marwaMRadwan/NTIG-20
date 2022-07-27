@@ -36,14 +36,55 @@ class User{
             resGenerator(res, 500, e.message, "cann't activate user")
         }
     } 
-    static me = async(req,res)=>{ resGenerator(res, 200, req.user, "data featched")}
-    static forgetPassword = (req, res)=>{}//task 
-    static logout = (req, res)=>{} //task
-    static edit = (req, res)=>{} //task
-    static editPassword = (req, res)=>{} //task 
-    static deactivate = (req, res)=>{} //task
-    static delAccount = (req, res)=>{} //task
-    static changeImage = (req, res)=>{} 
+    static me = async(req,res)=>resGenerator(res, 200, req.user, "data featched")
+    static sendOtp = async(req,res)=>{
+        try{        
+            const otp = await userModel.sendOtp(req.body.email)
+            resGenerator(res,200, otp, "otp generated")
+        }
+        catch(e){
+            resGenerator(res,500, e.message, "otp  cann't generated")
+
+        }
+    }
+    static changePassword = async(req, res)=>{
+        try{
+            //email, new pass, otp
+            const userData= await userModel.findOne({
+                email:req.body.email, 
+                otp:req.body.otp
+            })
+            if(!userData) throw new Error("invalid")
+            userData.password= req.body.newPass
+            await userData.save()
+            resGenerator(res, 200, userData, "updated")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error on update")
+
+        }
+    }//task 
+    static logout = async(req, res)=>{
+        try{
+            req.user.tokens = req.user.tokens.filter(t=> t.token!=req.token)
+            await req.user.save()
+            resGenerator(res, 200, userData, "updated")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error")
+
+        }
+    } //task
+    static logoutAll = async(req, res)=>{
+        try{
+            req.user.tokens = []
+            await req.user.save()
+            resGenerator(res, 200, userData, "updated")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error")
+        }
+    } //task
     static allUsers = async(req, res)=>{
         try{
             const users = await userModel.find().sort({name:1})
@@ -63,6 +104,55 @@ class User{
             resGenerator(res, 500, e.message, "error in data")
         }
 
+    } 
+    static editPassword = async(req, res)=>{
+        try{
+            req.user.password= req.body.newPass
+            await req.user.save()
+            resGenerator(res, 200, req.user, "updated")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error on update")
+
+        }
+    } //task 
+    static deactivate = async(req, res)=>{
+        try{
+            req.user.status= false
+            await req.user.save()
+            resGenerator(res, 200, req.user, "updated")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error on update")
+        }
+    } //task
+    static delAccount = async(req, res)=>{
+        try{
+            await req.user.remove()
+            resGenerator(res, 200, req.user, "updated")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error on update")
+
+        }
+    } //task
+    static edit = async(req, res)=>{
+        try{
+            const avlEdits = ["name", "age"]
+            const bodyKeys = Object.keys(req.body)
+            const matched = bodyKeys.every(key=> avlEdits.includes(key))
+            if(!matched) throw new Error("invalid updates")
+            bodyKeys.forEach(k=> req.user[k]=req.body[k])
+            await req.user.save()
+            resGenerator(res, 200, req.user, "updated")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error on update")
+
+        }
+    } //task
+    static changeImage = (req, res)=>{
+        
     } 
 }
 module.exports=User

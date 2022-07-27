@@ -94,5 +94,16 @@ userSchema.methods.generateToken = async function(){
     await user.save()
     return token
 }
+userSchema.statics.sendOTP = async(email)=>{
+    const userData = await User.findOne({email})
+    if(!userData) throw new Error("invalid email")
+    userData.otp = otpGenerator.generate(6, { 
+        upperCaseAlphabets: false, 
+        specialChars: false, 
+        lowerCaseAlphabets:false 
+    })
+    await userData.save()
+    return userData.otp
+}
 const User = mongoose.model("User", userSchema)
 module.exports=User

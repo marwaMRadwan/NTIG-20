@@ -7,5 +7,5 @@ router.post("/activateAcc", user.activate)
 router.get("/me", auth, user.me)
 router.get("/all", authAdmin, user.allUsers)
 router.get("/all/:id", authAdmin, user.singleDetails)
-
+router.patch("/edit", auth, user.edit)
 module.exports=router
