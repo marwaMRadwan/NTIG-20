@@ -1,7 +1,0 @@
-posts app
-    - user => name, age, email, password, image, 
-    - post => title,  type, file, txtContent
-==> encrypt user password
-==> register, login, logout , edit profile, get profile
-
-npm i express validator dotenv mongoose

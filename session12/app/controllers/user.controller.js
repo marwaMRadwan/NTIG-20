@@ -119,6 +119,7 @@ class User{
     static deactivate = async(req, res)=>{
         try{
             req.user.status= false
+            req.user.tokens = []
             await req.user.save()
             resGenerator(res, 200, req.user, "updated")
         }
@@ -151,8 +152,31 @@ class User{
 
         }
     } //task
-    static changeImage = (req, res)=>{
-        
-    } 
+    // static changeImage = async(req, res)=>{
+    //     try{
+    //         const path = require("path")
+    //         const fs = require("fs")
+    //         if(!req.file) throw new Error("no file found")
+    //         const fileExt= path.extname(req.file.originalname)
+    //         const fileName = `${req.file.fieldname}${Date.now()}${fileExt}`
+    //         fs.renameSync(req.file.path, `uploads\\${fileName}`)
+    //         req.user.pImage = fileName
+    //         await(req.user.save())
+    //         resGenerator(res, 200, req.user, "message")
+    //     }
+    //     catch(e){
+    //         resGenerator(res, 500, e.message, "error")
+    //     }
+    // } 
+    static changeImage = async(req, res)=>{
+        try{
+            req.user.pImage= req.file.filename
+            await req.user.save()
+            resGenerator(res, 200, req.user, "message")
+        }
+        catch(e){
+            resGenerator(res, 500, e.message, "error")
+        }
+    }
 }
 module.exports=User
